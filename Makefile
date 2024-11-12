@@ -28,17 +28,21 @@ LIBFT_FLAGS	=	-L$(LIBFT_DIR) -lft
 all: $(NAME_SERVER) $(NAME_CLIENT)
 
 $(NAME_SERVER): $(OBJS_SERVER) $(LIBFT)
-	$(CC) $(CFLAGS) $(LIBFT_FLAGS) -o $@ $^
+	@echo "Building server executable..."
+	@$(CC) $(CFLAGS) $(LIBFT_FLAGS) -o $@ $^
 
 $(NAME_CLIENT): $(OBJS_CLIENT) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $^
+	@echo "Building client executable..."
+	@$(CC) $(CFLAGS) -o $@ $^
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiling $< into object file..."
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Create obj/ directory if it doesn't exist
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	@echo "Creating obj directory..."
+	@mkdir -p $(OBJ_DIR)
 
 # Build the libft library by calling its Makefile
 $(LIBFT):
@@ -47,11 +51,13 @@ $(LIBFT):
 
 # Rule to clean up object files
 clean:
-	$(RM) -r $(OBJ_DIR)
+	@echo "Cleaning up object files..."
+	@$(RM) -r $(OBJ_DIR)
 
 # Rule to clean up object files and the executables
 fclean: clean
-	$(RM) $(NAME_SERVER) $(NAME_CLIENT)
+	@echo "Cleaning up executables..."
+	@$(RM) $(NAME_SERVER) $(NAME_CLIENT)
 
 # Rule to rebuild everything from scratch
 re: fclean all
