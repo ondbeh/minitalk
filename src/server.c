@@ -13,13 +13,7 @@
 #include "../minitalk.h"
 #include <string.h>
 
-static void	ft_putchar(char *str)
-{
-	while (*str)
-		write(1, str++, 1);
-}
-
-static void	signal_handler(int signum)
+static void	signal_handler(const int signum)
 {
 	static char		buffer[BUFFER_SIZE + 1];
 	static size_t	m_index = 0;
@@ -39,8 +33,8 @@ static void	signal_handler(int signum)
 		|| (char_index == 0 && buffer[m_index - 1] == '\0'))
 	{
 		m_index = 0;
-		ft_putchar(buffer);
-		memset(buffer, 0, BUFFER_SIZE);
+		ft_putstr_fd(buffer, 1);
+		ft_memset(buffer, 0, BUFFER_SIZE);
 	}
 }
 

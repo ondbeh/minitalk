@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obehavka <obehavka@student.42heilbronn.d>  +#+  +:+       +#+        */
+/*   By: obehavka <obehavka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 11:29:00 by obehavka          #+#    #+#             */
-/*   Updated: 2024/10/28 17:20:01 by obehavka         ###   ########.fr       */
+/*   Created: 2024/10/10 15:43:57 by obehavka          #+#    #+#             */
+/*   Updated: 2024/10/19 12:32:22 by obehavka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
-# define BUFFER_SIZE 64
+#include "../libft.h"
 
-# include "libft/libft.h"
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*new_node;
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <signal.h>
-
-#endif
+	new_node = malloc (sizeof (t_list));
+	if (!new_node)
+		return (NULL);
+	new_node->content = content;
+	new_node->next = NULL;
+	return (new_node);
+}

@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obehavka <obehavka@student.42heilbronn.d>  +#+  +:+       +#+        */
+/*   By: obehavka <obehavka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 11:29:00 by obehavka          #+#    #+#             */
-/*   Updated: 2024/10/28 17:20:01 by obehavka         ###   ########.fr       */
+/*   Created: 2024/10/08 10:46:31 by obehavka          #+#    #+#             */
+/*   Updated: 2024/10/19 12:32:52 by obehavka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
-# define BUFFER_SIZE 64
+#include "../libft.h"
 
-# include "libft/libft.h"
-
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <signal.h>
-
-#endif
+int	ft_isalnum(int ch)
+{
+	if (ft_isalpha(ch) || ft_isdigit(ch))
+		return (1);
+	return (0);
+}

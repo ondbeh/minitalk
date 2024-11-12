@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obehavka <obehavka@student.42heilbronn.d>  +#+  +:+       +#+        */
+/*   By: obehavka <obehavka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 11:29:00 by obehavka          #+#    #+#             */
-/*   Updated: 2024/10/28 17:20:01 by obehavka         ###   ########.fr       */
+/*   Created: 2024/10/10 08:40:30 by obehavka          #+#    #+#             */
+/*   Updated: 2024/10/19 12:32:55 by obehavka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
-# define BUFFER_SIZE 64
+#include "../libft.h"
 
-# include "libft/libft.h"
+void	*ft_calloc(size_t num, size_t size)
+{
+	void	*return_ptr;
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <signal.h>
-
-#endif
+	return_ptr = malloc (num * size);
+	if (return_ptr)
+		ft_memset(return_ptr, 0, num * size);
+	return (return_ptr);
+}

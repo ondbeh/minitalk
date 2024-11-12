@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obehavka <obehavka@student.42heilbronn.d>  +#+  +:+       +#+        */
+/*   By: obehavka <obehavka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 11:29:00 by obehavka          #+#    #+#             */
-/*   Updated: 2024/10/28 17:20:01 by obehavka         ###   ########.fr       */
+/*   Created: 2024/10/10 16:21:24 by obehavka          #+#    #+#             */
+/*   Updated: 2024/10/19 12:32:20 by obehavka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
-# define BUFFER_SIZE 64
+#include "../libft.h"
 
-# include "libft/libft.h"
+int	ft_lstsize(t_list *lst)
+{
+	int	size;
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <signal.h>
-
-#endif
+	size = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		++size;
+	}
+	return (size);
+}

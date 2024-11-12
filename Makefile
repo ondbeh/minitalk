@@ -19,14 +19,18 @@ SRCS_CLIENT := $(addprefix $(SRC_DIR)/, $(SRCS_CLIENT))
 OBJS_SERVER = $(SRCS_SERVER:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 OBJS_CLIENT = $(SRCS_CLIENT:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
+LIBFT_DIR	=	libft
+LIBFT		=	$(LIBFT_DIR)/libft.a
+LIBFT_FLAGS	=	-L$(LIBFT_DIR) -lft
+
 # Rules
 
 all: $(NAME_SERVER) $(NAME_CLIENT)
 
-$(NAME_SERVER): $(OBJS_SERVER)
-	$(CC) $(CFLAGS) -o $@ $^
+$(NAME_SERVER): $(OBJS_SERVER) $(LIBFT)
+	$(CC) $(CFLAGS) $(LIBFT_FLAGS) -o $@ $^
 
-$(NAME_CLIENT): $(OBJS_CLIENT)
+$(NAME_CLIENT): $(OBJS_CLIENT) $(LIBFT)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
@@ -35,6 +39,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 # Create obj/ directory if it doesn't exist
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
+
+# Build the libft library by calling its Makefile
+$(LIBFT):
+	@echo "Building libft library..."
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) all
 
 # Rule to clean up object files
 clean:

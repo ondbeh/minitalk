@@ -12,7 +12,7 @@
 
 #include "../minitalk.h"
 
-static void	send_char(int pid, char character)
+static void	send_char(const int pid, const char character)
 {
 	size_t	i;
 
@@ -28,7 +28,7 @@ static void	send_char(int pid, char character)
 	}
 }
 
-static void	send_message(int pid, char *message)
+static void	send_message(const int pid, const char *message)
 {
 	size_t	i;
 
@@ -41,17 +41,16 @@ static void	send_message(int pid, char *message)
 	send_char(pid, message[i]);
 }
 
-int	main(int argc, char **argv)
+int	main(const int argc, char **argv)
 {
 	int		server_pid;
 
 	if (argc != 3)
 	{
-		printf("Unexpected amount of arguments!");
+		ft_putstr_fd("Unexpected amount of arguments!", 2);
 		return (1);
 	}
-	server_pid = atoi(argv[1]);
-	printf ("Sending message to server pid:%d\n", server_pid);
+	server_pid = ft_atoi(argv[1]);
 	send_message(server_pid, argv[2]);
 	return (0);
 }
