@@ -24,7 +24,7 @@ static void	send_char(const int pid, const char character)
 		else
 			kill (pid, SIGUSR1);
 		++i;
-		usleep(50);
+		usleep(200);
 	}
 }
 
