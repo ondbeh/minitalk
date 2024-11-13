@@ -40,7 +40,9 @@ static void	signal_handler(const int signum)
 
 int	main(void)
 {
-	printf("Welcome to my server, my PID is %d\n", getpid());
+	ft_putstr_fd("Welcome to my server, my PID is ", 1);
+	ft_putnbr_fd(getpid(), 1);
+	ft_putchar_fd('\n', 1);
 	signal(SIGUSR1, signal_handler);
 	signal(SIGUSR2, signal_handler);
 	while (1)
