@@ -24,7 +24,8 @@ static void	send_char(const int pid, const char character)
 		else
 			kill (pid, SIGUSR1);
 		++i;
-		usleep(200);
+		pause();
+		usleep(50);
 	}
 }
 
@@ -41,10 +42,16 @@ static void	send_message(const int pid, const char *message)
 	send_char(pid, message[i]);
 }
 
+void	signal_handler(int signum)
+{
+	(void)signum;
+}
+
 int	main(const int argc, char **argv)
 {
 	int		server_pid;
 
+	signal(SIGUSR1, signal_handler);
 	if (argc != 3)
 	{
 		ft_putstr_fd("Unexpected amount of arguments!", 2);
