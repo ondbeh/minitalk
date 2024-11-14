@@ -12,6 +12,15 @@
 
 #include "../minitalk.h"
 
+static void	terminate_client(int status, char *message)
+{
+	ft_putchar_fd('\n', 2);
+	if (message)
+		ft_putendl_fd(message, 2);
+	ft_putendl_fd("Client has been terminated", 2);
+	exit(status);
+}
+
 static void	send_char(const int pid, const char character)
 {
 	size_t	i;
@@ -42,22 +51,22 @@ static void	send_message(const int pid, const char *message)
 	send_char(pid, message[i]);
 }
 
-void	signal_handler(int signum)
+static void	signal_handler(int signum)
 {
-	(void)signum;
+	if (signum == SIGUSR2)
+		ft_putendl_fd("Message has been successfully sent", 1);
 }
 
 int	main(const int argc, char **argv)
 {
 	int		server_pid;
 
-	signal(SIGUSR1, signal_handler);
 	if (argc != 3)
-	{
-		ft_putstr_fd("Unexpected amount of arguments!", 2);
-		return (1);
-	}
+		terminate_client(1, "Invalid number of arguments");
 	server_pid = ft_atoi(argv[1]);
+	if (signal(SIGUSR1, signal_handler) == SIG_ERR
+		|| signal(SIGUSR2, signal_handler) == SIG_ERR)
+		terminate_client(1, "Error while setting signal handler");
 	send_message(server_pid, argv[2]);
 	return (0);
 }

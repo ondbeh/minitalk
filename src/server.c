@@ -12,10 +12,25 @@
 
 #include "../minitalk.h"
 
-static void	terminate_server(int status)
+static void	terminate_server(int status, char *message)
 {
-	ft_putendl_fd("Server has been terminated", 1);
+	int		fd;
+
+	if (status == 0)
+		fd = 1;
+	else
+		fd = 2;
+	ft_putchar_fd('\n', fd);
+	if (message)
+		ft_putendl_fd(message, fd);
+	ft_putendl_fd("Server has been terminated", fd);
 	exit(status);
+}
+
+static void	send_confirmation(pid_t pid, int signum)
+{
+	if (kill(pid, signum) == -1)
+		terminate_server(1, "Error while sending confirmation");
 }
 
 static void	signal_handler(const int signum, siginfo_t *info, void *context)
@@ -27,10 +42,9 @@ static void	signal_handler(const int signum, siginfo_t *info, void *context)
 
 	(void) context;
 	if (signum == SIGINT)
-		terminate_server(0);
+		terminate_server(0, "CTRL+C has been pressed");
 	current_char = current_char << 1 | (signum == SIGUSR2);
-	++char_index;
-	if (char_index == 8)
+	if (++char_index == 8)
 	{
 		buffer[m_index] = current_char;
 		++m_index;
@@ -40,10 +54,12 @@ static void	signal_handler(const int signum, siginfo_t *info, void *context)
 			buffer[m_index] = '\0';
 			ft_putstr_fd(buffer, 1);
 			m_index = 0;
+			if (current_char == '\0')
+				send_confirmation(info->si_pid, SIGUSR2);
 		}
 	}
 	usleep(50);
-	kill(info->si_pid, SIGUSR1);
+	send_confirmation(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
@@ -52,14 +68,14 @@ int	main(void)
 
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = signal_handler;
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
-	sigaction(SIGINT, &sa, NULL);
+	if (sigaction(SIGUSR1, &sa, NULL) == -1
+		|| sigaction(SIGUSR2, &sa, NULL) == -1
+		|| sigaction(SIGINT, &sa, NULL) == -1)
+		terminate_server(1, "Error while setting signal handler");
 	sigemptyset(&sa.sa_mask);
 	ft_putstr_fd("Welcome to my server, my PID is ", 1);
 	ft_putnbr_fd(getpid(), 1);
 	ft_putchar_fd('\n', 1);
 	while (1)
 		pause();
-	return (0);
 }
